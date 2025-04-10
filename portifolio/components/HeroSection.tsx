@@ -1,8 +1,9 @@
 "use client";
 import Image from "next/image";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useLayoutEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { FaArrowRight } from "react-icons/fa";
 
 const HeroSection = () => {
   const firstParagraph = useRef(null);
@@ -11,25 +12,26 @@ const HeroSection = () => {
   let xPercent = 0;
   let direction = -1;
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
 
     gsap.to(slider.current, {
       scrollTrigger: {
         trigger: document.documentElement,
+        scrub: 0.25,
         start: 0,
         end: window.innerHeight,
-        scrub: 0,
+
         onUpdate: (event) => (direction = event.direction * -1),
       },
-      x: "-300px",
+      x: "-200px",
     });
 
     requestAnimationFrame(animation);
   }, []);
 
   const animation = () => {
-    if (xPercent == -100) {
+    if (xPercent < -100) {
       xPercent = 0;
     }
 
@@ -43,28 +45,38 @@ const HeroSection = () => {
   };
 
   return (
-    <main className="h-screen relative overflow-hidden">
-      <div className="absolute top-0 left-0 inset-0 h-screen w-full z-20 bg-stone-900/25" />
+    <main className="h-screen w-full relative overflow-hidden">
       <Image
         fill
         className="object-cover z-10"
         alt="image"
-        src={"/herosection3.jpg"}
+        src={"/jonny5.jpg"}
+        quality={100}
         priority
       />
 
-      <div className="absolute z-30 top-[70vh]">
-        <div ref={slider} className="relative flex whitespace-nowrap">
+      <div className="z-30 absolute top-[80vh] md:top-[45vh] right-[25vw] md:right-[10vw] xl:right-[17vw]  text-white text-2xl ">
+        <h1 className="leading-[1.1] tracking-[-0.01em]">Jonas Nygaard</h1>
+        <h1 className="leading-[1.1] tracking-[-0.01em]">
+          Designer & Developer
+        </h1>
+      </div>
+
+      <div className="absolute z-30 top-[50vh] md:top-[70vh]">
+        <div
+          ref={slider}
+          className="relative text-white flex whitespace-nowrap"
+        >
           <p
             ref={firstParagraph}
-            className="font-bold text-[150px]  m-2.5 uppercase"
+            className="font-bold text-[120px]  m-2.5 uppercase"
           >
             developer & designer -
           </p>
 
           <p
             ref={secondParagraph}
-            className="font-bold text-[150px] z-50 left-[100%] absolute m-2.5 uppercase"
+            className="font-bold text-[120px] z-50 left-[100%] absolute m-2.5 uppercase"
           >
             developer & designer -
           </p>
